@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Suppavit Monthong</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --bg-color: #f4f7f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .resume-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        /* Header Section */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+        }
+
+        .header-text h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .header-text p {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* ช่องว่างสำหรับใส่รูปภาพ */
+        .profile-photo-box {
+            width: 130px;
+            height: 160px;
+            border: 2px dashed #95a5a6;
+            background-color: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            text-align: center;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .profile-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+
+        /* Sidebar (Left column) */
+        .sidebar section {
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .contact-info a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .skills-list, .interests-list {
+            list-style: none;
+        }
+
+        .skills-list li, .interests-list li {
+            background: #e1e8ed;
+            padding: 6px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Main Block (Right column) */
+        .main-block section {
+            margin-bottom: 35px;
+        }
+
+        .summary-text {
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        .timeline-item {
+            margin-bottom: 25px;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-weight: 700;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .timeline-subtitle {
+            font-style: italic;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .timeline-item ul {
+            padding-left: 20px;
+            font-size: 0.95rem;
+        }
+
+        .timeline-item li {
+            margin-bottom: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 20px;
+            }
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="resume-container">
+    
+    <header>
+        <div class="header-text">
+            <h1>Suppavit Monthong</h1>
+            <p>Student of the Universe / IT Graduate</p>
+        </div>
+        <div class="profile-photo-box">
+             <img src="joker.png" alt="Suppavit Profile">
+        </div>
+    </header>
+
+    <div class="main-content">
+        
+        <div class="sidebar">
+            
+            <section class="contact-info">
+                <h3>Details</h3>
+                <p><strong>Email:</strong> <a href="mailto:sumtheweek@gmail.com">sumtheweek@gmail.com</a></p>
+                <p><strong>Phone:</strong> +660803846788</p>
+                <p><strong>Language:</strong> THAI (Native)</p>
+            </section>
+
+            <section>
+                <h3>Links</h3>
+                <p class="contact-info"><strong>GitHub:</strong> <a href="https://github.com/thanksop7" target="_blank">thanksop7</a></p>
+                <p class="contact-info"><strong>Facebook:</strong> <a href="https://www.facebook.com/Thanksuppavit?locale=th_TH" target="_blank">Thanksuppavit</a></p>
+            </section>
+
+            <section>
+                <h3>Skills</h3>
+                <ul class="skills-list">
+                    <li>Mentoring</li>
+                    <li>Adaptability & Flexibility</li>
+                    <li>Google Docs</li>
+                    <li>Active Listening</li>
+                    <li>Public Speaking</li>
+                    <li>Basic Troubleshooting</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Interests</h3>
+                <ul class="interests-list">
+                    <li>Active at News of Technology</li>
+                </ul>
+            </section>
+
+        </div>
+
+        <div class="main-block">
+            
+            <section>
+                <h3>Summary</h3>
+                <p class="summary-text">
+                    Enthusiastic and dedicated Student of the Universe with a passion for exploring diverse fields of knowledge and a commitment to lifelong learning. Eager to contribute my analytical skills and innovative thinking to a dynamic team. I thrive in collaborative environments and am excited about the opportunity to engage with like-minded individuals who share a vision for growth and discovery. Ready to bring my curiosity and drive to your organization.
+                </p>
+            </section>
+
+            <section>
+                <h3>Experience</h3>
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <span class="timeline-title">Student of Universe</span>
+                        <span class="timeline-date">Jan 2017 — Aug 2017</span>
+                    </div>
+                    <div class="timeline-subtitle">Suan Dusit University, BKK, Thailand</div>
+                    <ul>
+                        <li>Developed critical thinking skills through extensive research projects.</li>
+                        <li>Engaged in diverse learning experiences across multiple disciplines.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Education</h3>
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <span class="timeline-title">Information Technology</span>
+                        <span class="timeline-date">Jun 2025 — Aug 2029</span>
+                    </div>
+                    <div class="timeline-subtitle">Suan Dusit University, BKK</div>
+                    <ul>
+                        <li>Graduated with honors, achieving a GPA of 3.8/4.0.</li>
+                        <li>Completed a capstone project on cybersecurity solutions for local businesses.</li>
+                        <li>Received the Dean's List recognition for three consecutive semesters.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
