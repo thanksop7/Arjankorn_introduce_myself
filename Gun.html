@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume -  PIPATPONG AUTARA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&family=Pridi:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           🎨 ส่วนของ CSS (สไตล์ Poker x Hogwarts x Wonderland)
+           ========================================================================== */
+        
+        /* กฎพื้นฐานสไตล์ดินแดนมหัศจรรย์และมนตรา */
+        body {
+            background-color: #0b0205; /* ดำอมม่วงแดงแบบลึกลับ */
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            color: #f5f2eb;
+            font-family: 'Pridi', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* กล่องข้อความหลัก - สไตล์โต๊ะโป๊กเกอร์ราชินี */
+        .wonderland-container {
+            max-width: 850px;
+            width: 100%;
+            background: #140d12;
+            border: 4px solid #8b0000; /* แดงเข้มแบบไพ่โพแดง */
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5), inset 0 0 20px rgba(0,0,0,0.8);
+            padding: 40px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ลวดลายขอบไพ่สไตล์ Alice & Hogwarts */
+        .wonderland-container::before {
+            content: "";
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid #d4af37; /* ขอบทองเวทมนตร์ */
+            border-radius: 10px;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* ส่วนหัว */
+        .poker-header {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-flex {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* ช่องเว้นว่างสำหรับใส่รูปภาพ - ออกแบบเป็นกรอบไพ่คาสิโนเวทมนตร์ */
+        .photo-placeholder {
+            width: 150px;
+            height: 200px;
+            background: #1a1a1a;
+            border: 3px double #d4af37;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* เผื่อภาพขยายเกินขอบ */
+        }
+
+        .photo-placeholder .inner-frame {
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px dashed #8b0000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            overflow: hidden;
+        }
+
+        /* ปรับรูปให้พอดีกรอบ inner-frame */
+        .photo-placeholder .inner-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* ทำให้รูปเต็มพื้นที่กรอบโดยไม่เสียสัดส่วน */
+            display: block;
+        }
+
+        /* ข้อมูลโปรไฟล์ */
+        .magic-title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.5rem;
+            color: #d4af37; /* สีทองกริฟฟินดอร์/ราชวงศ์ */
+            margin: 0 0 10px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .contact-info {
+            font-size: 0.95rem;
+            color: #ccc;
+            margin: 0;
+        }
+
+        .card-suits {
+            font-size: 1.5rem;
+            color: #8b0000;
+            margin-top: 10px;
+            letter-spacing: 8px;
+        }
+
+        /* เส้นคั่นมหัศจรรย์ */
+        .wonderland-divider {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #d4af37, #8b0000, #d4af37, transparent);
+            margin: 30px 0;
+        }
+
+        /* ส่วนเนื้อหาหลัก */
+        .resume-section {
+            margin-bottom: 35px;
+        }
+
+        .resume-section h2 {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            border-bottom: 1px solid #4a1525;
+            padding-bottom: 5px;
+            margin-top: 0;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+        }
+
+        /* กล่องประวัติแบบกล่องไพ่ */
+        .summary-box {
+            background: rgba(139, 0, 0, 0.1);
+            padding: 20px;
+            border-left: 4px solid #8b0000;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .experience-card, .education-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #8b0000;
+            color: #fff;
+            padding: 2px 12px;
+            font-size: 0.8rem;
+            border-radius: 20px;
+            border: 1px solid #d4af37;
+            font-weight: bold;
+        }
+
+        .job-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .job-meta h3 {
+            margin: 0;
+            color: #fff;
+            font-size: 1.15rem;
+        }
+
+        .date-tag {
+            color: #d4af37;
+            font-size: 0.9rem;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+            color: #ddd;
+        }
+
+        .uni-name {
+            color: #e0a3a3;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        .edu-desc {
+            color: #bbb;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* ระบบกริดสำหรับทักษะ (สไตล์ชิปคาสิโน) */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .skill-item {
+            background: #1f1118;
+            border: 1px solid #8b0000;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-item:hover {
+            background: #8b0000;
+            color: #fff;
+            box-shadow: 0 0 10px #8b0000;
+            transform: translateY(-2px);
+        }
+
+        /* ปุ่มควบคุมเสียงเพลง */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #8b0000;
+            border: 2px solid #d4af37;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 100;
+            transition: transform 0.2s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.05);
+            background: #a00000;
+        }
+
+        /* Responsive สำหรับมือถือ */
+        @media (max-width: 600px) {
+            .header-flex {
+                flex-direction: column;
+                text-align: center;
+            }
+            .job-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .magic-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="https://grateful-aqua-y418w8ud.edgeone.dev/Ariana%20Grande%20-%20needy%20(Official%20Audio).mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-control" onclick="toggleMusic()">
+        <span id="music-icon">🎵</span> <span id="music-text">Play Theme</span>
+    </div>
+
+    <div class="wonderland-container">
+        
+        <header class="poker-header">
+            <div class="header-flex">
+                <div class="photo-placeholder">
+                    <div class="inner-frame">
+                        <img src="https://cdn.discordapp.com/attachments/1396105059506323486/1522971555544694824/g.png?ex=6a4a694a&is=6a4917ca&hm=473890f6c1ca482bc982a1c9edc01bee57542173f1d1b4793ac38eb5a120318b&" alt="Pipatpong Autara">
+                    </div>
+                </div>
+                
+                <div class="profile-info">
+                    <h1 class="magic-title">PIPATPONG AUTARA</h1>
+                    <p class="contact-info">
+                        <strong>อีเมล:</strong> pongsagong1233@gmail.com &nbsp;|&nbsp; 
+                        <strong>โทร:</strong> +66
+                    </p>
+                    <div class="card-suits">♠ ♥ ♣ ♦</div>
+                </div>
+            </div>
+        </header>
+
+        <hr class="wonderland-divider">
+
+        <section class="resume-section summary-box">
+            <h2>หล่อ / ผู้นำแห่งอาณาจักร</h2>
+            <p>ผู้นำที่มีพลังและผลลัพธ์มีประวัติความสำเร็จในการประสบความสำเร็จอย่างยิ่งใหญ่และส่งเสริมให้เป็นทีมที่เชี่ยวชาญด้านความเคารพเชิงกลยุทธ์ ผู้นำที่มีพลังและความเป็นผู้นำในวัฒนธรรมการทำงานเป็นศูนย์กลางการรับรู้ในการส่งเสริมให้ทีมทฤษฎีสูงสุดและประสิทธิภาพการส่งมอบผลลัพธ์ที่ยอดเยี่ยม พบกับผู้นำและชื่อเสียงมาสู่ผู้นำในงานสนับสนุนและความสำเร็จอย่างต่อเนื่อง</p>
+        </section>
+
+        <section class="resume-section">
+            <h2>อย่างนั้น (ประสบการณ์การทำงาน)</h2>
+            <div class="experience-card">
+                <div class="card-badge">เดอะบอส</div>
+                <div class="job-meta">
+                    <h3>เดอะบอส @ อบอต. - อิเซไก</h3>
+                    <span class="date-tag">มกราคม 2000 — ปัจจุบัน</span>
+                </div>
+                <ul>
+                    <li>ดำเนินการตามแผนยุทธศาสตร์ที่เพิ่มรายได้เพิ่มขึ้น 1 ล้านดอลลาร์</li>
+                    <li>สร้างสัมพันธ์กับลูกค้าเพื่อเพิ่มการรักษาฐานลูกค้าเพิ่มขึ้น 25%</li>
+                    <li>นโยบายทำสัญญาจนได้ต้นทุนที่ลดลง 20% สำหรับระบบ</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="resume-section">
+            <h2>สิ่ง (การศึกษา)</h2>
+            <div class="education-card">
+                <div class="job-meta">
+                    <h3>เทคโนโลยีสารสนเทศ</h3>
+                    <span class="date-tag">มิ.ย. 2026 - สิงหาคม 2029</span>
+                </div>
+                <p class="uni-name">นักศึกษาจักรวาล มหาวิทยาลัยสวนดุสิต - กรุงเทพฯ ประเทศไทย</p>
+                <p class="edu-desc">นับถือด้วยมาตรฐานโดยได้เกรดเฉลี่ย 3.2/4.0 และทำโครงการเกี่ยวกับการแก้ปัญหาทางโภชนาการสำหรับธุรกิจมัลติฟังก์ชั่น</p>
+            </div>
+        </section>
+
+        <section class="resume-section">
+            <h2>ทักษะ (สิ)</h2> 
+            <div class="skills-grid">
+                <div class="skill-item">♠ ไมโครซอฟต์ออฟฟิศ</div> 
+                <div class="skill-item">♥ การแก้ปัญหา</div> 
+                <div class="skill-item">♣ เบต้าเทสเตอร์</div> 
+                <div class="skill-item">♦ ความเป็นผู้นำเวทมนตร์</div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        const musicText = document.getElementById('music-text');
+        
+        function toggleMusic() {
+            if (music.paused) {
+                music.play()
+                    .then(() => {
+                        musicText.innerText = "Mute Theme";
+                    })
+                    .catch(error => console.log("Autoplay ถูกบล็อกโดยเบราว์เซอร์ ต้องกดคลิกบนหน้าจอก่อน: ", error));
+            } else {
+                music.pause();
+                musicText.innerText = "Play Theme";
+            }
+        }
+
+        // ระบบเปิดเพลงอัตโนมัติเมื่อผู้ใช้คลิกส่วนใดก็ได้บนหน้าจอครั้งแรก (แก้ปัญหา Browser Block Autoplay)
+        document.addEventListener('click', function() {
+            if(music.paused && musicText.innerText === "Play Theme") {
+                music.play()
+                    .then(() => {
+                        musicText.innerText = "Mute Theme";
+                    })
+                    .catch(e => console.log(e)); 
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
