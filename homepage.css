@@ -1,0 +1,15 @@
+body {
+    background-image: url(background1.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+.text-homepage {
+    width: 100%;
+    font-size: 100%;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
