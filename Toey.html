@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>King of Diamonds Resume - Natthakit Samanya</title>
+    
+    <!-- นำเข้าฟอนต์หรูๆ สไตล์หน้าไพ่ และฟอนต์อ่านง่ายสำหรับเนื้อหา -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* กำหนดตัวแปรสีแดง-ทอง ให้แก้สีง่ายๆ */
+        :root {
+            --gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --dark-red: #1a0303;
+            --blood-red: #8b0000;
+            --text-light: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #050505; /* พื้นหลังเว็บสีดำสนิท */
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* ปุ่มคุมเสียงเพลง (Music Controller) */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--dark-red);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 100;
+            transition: 0.3s;
+        }
+        .music-btn:hover {
+            background: var(--gold);
+            color: #050505;
+            transform: scale(1.05);
+        }
+
+        /* โครงสร้างหลักของการ์ด */
+        .borderland-card {
+            background: linear-gradient(135deg, #2a0505 0%, #110101 100%);
+            width: 100%;
+            max-width: 900px;
+            border: 4px solid var(--gold);
+            border-radius: 15px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 0 40px var(--gold-glow), inset 0 0 20px rgba(139, 0, 0, 0.8);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            overflow: hidden;
+        }
+
+        /* สัญลักษณ์มุมไพ่ K♦ */
+        .card-corner {
+            position: absolute;
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-align: center;
+            line-height: 1;
+            text-shadow: 0 0 10px var(--gold-glow);
+        }
+        .top-left { top: 15px; left: 15px; }
+        .bottom-right { bottom: 15px; right: 15px; transform: rotate(180deg); }
+        .suit { color: var(--blood-red); display: block; font-size: 1.5rem; margin-top: -5px; }
+
+        /* ส่วนหัวชื่อ (Header) */
+        .resume-header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 20px;
+        }
+        .resume-header h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .resume-header p {
+            color: var(--gold);
+            letter-spacing: 5px;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        /* เลย์เอาต์ซ้าย-ขวา */
+        .left-column {
+            flex: 1 1 250px; /* คอลัมน์ซ้าย */
+            border-right: 1px solid rgba(212, 175, 55, 0.2);
+            padding-right: 20px;
+        }
+        .right-column {
+            flex: 2 1 450px; /* คอลัมน์ขวา */
+        }
+
+        /* ================= ปรับปรุงกรอบใส่รูปภาพไม่ให้ล้น ================= */
+        .photo-box {
+            width: 100%;
+            aspect-ratio: 3/4;
+            border: 2px dashed var(--gold);
+            background: rgba(139, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            transition: 0.3s;
+            overflow: hidden; /* คำสั่งสำคัญ: ห้ามรูปทะลุออกนอกกรอบ */
+            position: relative;
+        }
+        .photo-box:hover {
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* ครอปรูปให้พอดีกรอบเป๊ะๆ โดยไม่เสียสัดส่วน */
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
+        .photo-box:hover img {
+            transform: scale(1.05); /* ลูกเล่นซูมรูปนิดๆ ตอนเอาเมาส์ชี้ */
+        }
+        /* ============================================================== */
+
+        /* หัวข้อ Sections */
+        h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--blood-red);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+        .left-column h2 { margin-top: 0; }
+
+        /* ข้อมูลติดต่อ & ทักษะ */
+        .info-group { margin-bottom: 15px; font-size: 0.95rem; }
+        .info-group strong { color: var(--gold); display: block; font-size: 0.85rem; text-transform: uppercase; }
+        
+        .skill-list { list-style: none; padding: 0; }
+        .skill-list li {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* เนื้อหาประวัติการทำงาน & การศึกษา */
+        .content-box {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--gold);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+        .timeline-header h3 {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+        .timeline-header span {
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-family: 'Cinzel', serif;
+        }
+        .company { color: var(--gold); font-style: italic; margin-bottom: 10px; display: block; }
+        
+        ul.task-list {
+            padding-left: 20px;
+            color: var(--gold);
+        }
+        ul.task-list li {
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        /* Responsive Design: ปรับเป็น 1 คอลัมน์เมื่อจอมือถือ */
+        @media (max-width: 768px) {
+            .left-column { border-right: none; padding-right: 0; }
+            .timeline-header { flex-direction: column; }
+            .music-btn { top: auto; bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ปุ่มเปิด/ปิด เพลง -->
+    <button class="music-btn" id="playBtn" onclick="toggleMusic()">🎵 PLAY BGM</button>
+
+    <!-- แท็ก Audio ซ่อนไว้ (เอาลิงก์เพลง .mp3 ของมึงมาใส่แทน src นี้ได้เลย) -->
+    <audio id="bgm" loop>
+        <source src="https://www.image2url.com/r2/default/audio/1783179511295-f1878fe5-2625-499d-8023-1b8584362d70.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="borderland-card">
+        
+        <!-- สัญลักษณ์หน้าไพ่ มุมซ้ายบน และ ขวาล่าง -->
+        <div class="card-corner top-left">K<span class="suit">♦</span></div>
+        <div class="card-corner bottom-right">K<span class="suit">♦</span></div>
+
+        <!-- ชื่อและตำแหน่ง -->
+        <header class="resume-header">
+            <h1>Natthakit Samanya</h1>
+            <p>Networking Desired</p>
+        </header>
+
+        <!-- ฝั่งซ้าย: รูปภาพ ข้อมูลติดต่อ และ Skills -->
+        <aside class="left-column">
+            
+            <!-- จุดใส่รูปภาพ (ระบบครอปอัตโนมัติไม่ให้ล้น) -->
+            <div class="photo-box">
+                <!-- มึงเอาชื่อไฟล์รูปตัวเองมาใส่ตรง src="..." ได้เลย เช่น src="my-profile.jpg" -->
+                <!-- กูใส่รูปเรฟตัวอย่างให้เห็นภาพไว้ก่อน -->
+                <img src="https://cdn.discordapp.com/attachments/1464938216120520905/1522976554433511464/kuy.png?ex=6a4a6df2&is=6a491c72&hm=2ef192a30f135e57d407e85499449a5eab3d4f34244377d6f0adf6d9539b969d&" alt="Profile Image">
+            </div>
+
+            <h2>Contact Arena</h2>
+            <div class="info-group">
+                <strong>Email</strong>
+                bloodnight12324@gmail.com
+            </div>
+            <div class="info-group">
+                <strong>Phone</strong>
+                +66 092 123 2467
+            </div>
+
+            <h2 style="margin-top: 30px;">Surviving Skills</h2>
+            <ul class="skill-list">
+                <li>Communication Skills</li>
+                <li>Teamwork & Collaboration</li>
+                <li>Time Management</li>
+                <li>Adaptability & Flexibility</li>
+                <li>Attention to Detail</li>
+                <li>Critical Thinking</li>
+            </ul>
+        </aside>
+
+        <!-- ฝั่งขวา: ประวัติ เนื้อหาหลัก -->
+        <main class="right-column">
+            
+            <h2>Game Objective / Summary</h2>
+            <div class="content-box">
+                Dynamic and visionary leader with a proven track record of uniting diverse factions and fostering a culture of innovation and excellence. Adept at strategic decision-making and inspiring teams to achieve greatness. Passionate about driving progress and enhancing the welfare of the realm. Eager to bring my unique perspective and leadership skills to your esteemed court, ensuring a prosperous and harmonious future for all.
+            </div>
+
+            <h2>Cleared Stages / Experience</h2>
+            <div class="content-box">
+                <div class="timeline-header">
+                    <h3>EMPEROR</h3>
+                    <span>Jul 1999 — Current</span>
+                </div>
+                <span class="company">The Final Boss - Another of universe</span>
+                <ul class="task-list">
+                    <li>Oversaw a vast empire, ensuring stability and prosperity.</li>
+                    <li>Implemented strategic policies that increased trade by 30%.</li>
+                    <li>Cultivated alliances with neighboring territories to enhance security.</li>
+                    <li>Led military campaigns that expanded borders by 15% in two years.</li>
+                    <li>Promoted cultural advancements, boosting citizen morale and unity.</li>
+                    <li>Streamlined governance processes, reducing administrative costs by 20%.</li>
+                </ul>
+            </div>
+
+            <h2>Academic Arena / Education</h2>
+            <div class="content-box">
+                <div class="timeline-header">
+                    <h3>Information Technology Student</h3>
+                    <span>Jul 2025 — Current</span>
+                </div>
+                <span class="company">Suan Dusit University - Bkk</span>
+                <ul class="task-list">
+                    <li>Graduated with honors, achieving a GPA of 3.8/4.0.</li>
+                    <li>Completed a capstone project on cybersecurity solutions.</li>
+                    <li>Received the Dean's List recognition for three consecutive years.</li>
+                    <li>Participated in tech competitions, securing top 5 placements.</li>
+                </ul>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- สคริปต์ควบคุมการเล่นเพลง -->
+    <script>
+        var bgMusic = document.getElementById("bgm");
+        var playBtn = document.getElementById("playBtn");
+        var isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                playBtn.innerHTML = "🎵 PLAY BGM";
+                playBtn.style.background = "var(--dark-red)";
+                playBtn.style.color = "var(--gold)";
+            } else {
+                bgMusic.play();
+                playBtn.innerHTML = "⏸ PAUSE BGM";
+                playBtn.style.background = "var(--gold)";
+                playBtn.style.color = "#050505";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // ลองออโต้เพลย์เมื่อโหลดหน้าเว็บ
+        window.addEventListener('load', function() {
+            var playPromise = bgMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    isPlaying = true;
+                    playBtn.innerHTML = "⏸ PAUSE BGM";
+                    playBtn.style.background = "var(--gold)";
+                    playBtn.style.color = "#050505";
+                })
+                .catch(error => {
+                    console.log("Autoplay prevented by browser. User interaction required.");
+                });
+            }
+        });
+    </script>
+</body>
+</html>
