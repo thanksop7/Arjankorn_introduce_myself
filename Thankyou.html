@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borderland Resume - Suppavit Monthong</title>
+    <style>
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #161616;
+            --text-light: #ffffff;
+            --text-muted: #888888;
+            --poker-red: #e74c3c;
+            --poker-white: #f5f5f5;
+            --border-color: #2a2a2a;
+            --poker-green: #2ecc71;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace, 'Segoe UI', Tahoma;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.6;
+            padding: 40px 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(231, 76, 60, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* แผงควบคุมเพลงและระดับเสียง (Audio Controls Panel) */
+        .audio-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--poker-red);
+            padding: 8px 12px;
+            border-radius: 6px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.3);
+            transition: border-color 0.3s ease;
+        }
+
+        .audio-btn {
+            background: #222;
+            border: 1px solid var(--poker-red);
+            color: var(--poker-red);
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .audio-btn:hover {
+            background: var(--poker-red);
+            color: #000;
+            box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+        }
+
+        .volume-display {
+            font-size: 0.8rem;
+            color: var(--poker-white);
+            min-width: 45px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* หน้าจอด่านแรกก่อนเข้าเว็บ เพื่ออนุญาตให้เพลง Autoplay ทำงาน */
+        .start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 11, 11, 0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .start-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .game-title {
+            font-size: 3rem;
+            color: var(--poker-white);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .game-title span {
+            color: var(--poker-red);
+        }
+
+        .start-btn {
+            background: transparent;
+            border: 3px solid var(--poker-red);
+            color: var(--poker-red);
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 3px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .start-btn:hover {
+            background: var(--poker-red);
+            color: #000;
+            box-shadow: 0 0 25px rgba(231, 76, 60, 0.8);
+        }
+
+        .resume-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* แถบเลเซอร์สีแดงสไตล์ Alice in Borderland ด้านบนสุด */
+        .resume-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--poker-red), var(--poker-white), var(--poker-red));
+        }
+
+        /* Header Section */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--poker-red);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        .header-text h1 {
+            font-size: 3rem;
+            color: var(--poker-white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.1);
+        }
+
+        .header-text p {
+            font-size: 1.2rem;
+            color: var(--poker-red);
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* กรอบรูปภาพ ดีไซน์เป็นรูปหลังไพ่/กรอบไพ่โป๊กเกอร์ */
+        .profile-photo-box {
+            width: 140px;
+            height: 180px;
+            border: 3px solid var(--poker-white);
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-align: center;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .profile-photo-box:hover {
+            border-color: var(--poker-red);
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+        }
+
+        .profile-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        /* สัญลักษณ์ไพ่ตรงมุมกรอบรูป */
+        .card-corner {
+            position: absolute;
+            font-size: 1.2rem;
+            color: var(--poker-red);
+            font-weight: bold;
+            z-index: 1;
+        }
+        .top-left { top: 5px; left: 5px; }
+        .bottom-right { bottom: 5px; right: 5px; transform: rotate(180deg); }
+
+        /* Main Content Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 50px;
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 35px;
+        }
+
+        h3 {
+            color: var(--poker-white);
+            border-left: 4px solid var(--poker-red);
+            padding-left: 12px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        /* Sidebar (ซ้าย) */
+        .contact-info p {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        .contact-info strong {
+            color: var(--poker-white);
+        }
+
+        .contact-info a {
+            color: var(--poker-red);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* รายการทักษะตกแต่งด้วยสัญลักษณ์ข้าวหลามตัด ♦ */
+        .skills-list, .interests-list {
+            list-style: none;
+        }
+
+        .skills-list li, .interests-list li {
+            background: #1f1f1f;
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--poker-white);
+            display: flex;
+            align-items: center;
+        }
+
+        .skills-list li::before {
+            content: '♦';
+            color: var(--poker-red);
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+
+        /* Main Block (ขวา) */
+        .summary-text {
+            font-size: 1rem;
+            color: #ddd;
+            text-align: justify;
+            background: #1b1b1b;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* เส้น Timeline ตกแต่งด้วยสัญลักษณ์โพดำ ♠ */
+        .timeline-item {
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .timeline-item::before {
+            content: '♠';
+            position: absolute;
+            left: -6px;
+            top: 2px;
+            background: var(--card-bg);
+            color: var(--poker-white);
+            font-size: 0.8rem;
+            width: 12px;
+            height: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-weight: 700;
+            color: var(--poker-white);
+            font-size: 1.15rem;
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--poker-red);
+            font-weight: bold;
+        }
+
+        .timeline-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-item ul {
+            padding-left: 20px;
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        .timeline-item li {
+            margin-bottom: 6px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 25px;
+            }
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="start-overlay" id="startOverlay">
+    <div class="game-title">STAGE 1: <span>RESUME</span></div>
+    <div style="color: #aaa; letter-spacing: 2px; font-size: 0.9rem;">ALICE IN BORDERLAND EDITION</div>
+    <button class="start-btn" onclick="startGame()">ENTER GAME</button>
+</div>
+
+<div class="audio-panel" id="audioPanel">
+    <button class="audio-btn" id="playPauseBtn" onclick="toggleAudio()">🎵 PLAY</button>
+    <button class="audio-btn" onclick="changeVolume(-0.1)">VOL -</button>
+    <div class="volume-display" id="volDisplay">50%</div>
+    <button class="audio-btn" onclick="changeVolume(0.1)">VOL +</button>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="https://www.image2url.com/r2/default/audio/1783185753698-e11ffb37-2b5b-4a25-8508-bad39d08324d.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<div class="resume-container">
+    
+    <header>
+        <div class="header-text">
+            <h1>Suppavit Monthong</h1>
+            <p>Student of the Universe / IT Graduate (♦ 7 of Diamonds)</p>
+        </div>
+        
+        <div class="profile-photo-box">
+            <span class="card-corner top-left">♥</span>
+            <img src="joker.png" alt="Suppavit Profile" onerror="this.style.display='none';">
+            <span style="padding: 10px; z-index: 1;">เว้นไว้ใส่รูปภาพ<br>(140px x 180px)</span>
+            <span class="card-corner bottom-right">♥</span>
+        </div>
+    </header>
+
+    <div class="main-content">
+        
+        <div class="sidebar">
+            
+            <section class="contact-info">
+                <h3>Details</h3>
+                <p><strong>Email:</strong> <a href="mailto:sumtheweek@gmail.com">sumtheweek@gmail.com</a></p>
+                <p><strong>Phone:</strong> +660803846788</p>
+                <p><strong>Language:</strong> THAI (Native)</p>
+            </section>
+
+            <section>
+                <h3>Links</h3>
+                <p class="contact-info"><strong>GitHub:</strong> <a href="https://github.com/thanksop7" target="_blank">thanksop7</a></p>
+                <p class="contact-info"><strong>Facebook:</strong> <a href="https://www.facebook.com/Thanksuppavit?locale=th_TH" target="_blank">Thanksuppavit</a></p>
+            </section>
+
+            <section>
+                <h3>Skills</h3>
+                <ul class="skills-list">
+                    <li>Mentoring</li>
+                    <li>Adaptability & Flexibility</li>
+                    <li>Google Docs</li>
+                    <li>Active Listening</li>
+                    <li>Public Speaking</li>
+                    <li>Basic Troubleshooting</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Interests</h3>
+                <ul class="interests-list">
+                    <li>Active at News of Technology</li>
+                </ul>
+            </section>
+
+        </div>
+
+        <div class="main-block">
+            
+            <section>
+                <h3>Summary</h3>
+                <p class="summary-text">
+                    Enthusiastic and dedicated Student of the Universe with a passion for exploring diverse fields of knowledge and a commitment to lifelong learning. Eager to contribute my analytical skills and innovative thinking to a dynamic team. I thrive in collaborative environments and am excited about the opportunity to engage with like-minded individuals who share a vision for growth and discovery. Ready to bring my curiosity and drive to your organization.
+                </p>
+            </section>
+
+            <section>
+                <h3>Experience</h3>
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <span class="timeline-title">Student of Universe</span>
+                        <span class="timeline-date">Jan 2017 — Aug 2017</span>
+                    </div>
+                    <div class="timeline-subtitle">Suan Dusit University, BKK, Thailand</div>
+                    <ul>
+                        <li>Developed critical thinking skills through extensive research projects.</li>
+                        <li>Engaged in diverse learning experiences across multiple disciplines.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h3>Education</h3>
+                <div class="timeline-item">
+                    <div class="timeline-header">
+                        <span class="timeline-title">Information Technology</span>
+                        <span class="timeline-date">Jun 2025 — Aug 2029</span>
+                    </div>
+                    <div class="timeline-subtitle">Suan Dusit University, BKK</div>
+                    <ul>
+                        <li>Graduated with honors, achieving a GPA of 3.8/4.0.</li>
+                        <li>Completed a capstone project on cybersecurity solutions for local businesses.</li>
+                        <li>Received the Dean's List recognition for three consecutive semesters.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const music = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volDisplay = document.getElementById('volDisplay');
+    const overlay = document.getElementById('startOverlay');
+    const audioPanel = document.getElementById('audioPanel');
+
+    // ตั้งค่าความดังเริ่มต้นไว้ที่ 50% (0.5)
+    music.volume = 0.5;
+
+    function startGame() {
+        overlay.classList.add('hidden');
+        playMusic();
+    }
+
+    function playMusic() {
+        music.play().then(() => {
+            updateUI(true);
+        }).catch(err => {
+            console.log("Autoplay โดนบล็อกตามนโยบายเบราว์เซอร์:", err);
+        });
+    }
+
+    function toggleAudio() {
+        if (music.paused) {
+            music.play();
+            updateUI(true);
+        } else {
+            music.pause();
+            updateUI(false);
+        }
+    }
+
+    // ฟังก์ชันเพิ่ม-ลดระดับเสียงผ่านปุ่มกด
+    function changeVolume(amount) {
+        let newVolume = music.volume + amount;
+        
+        // ควบคุมค่าให้อยู่ในเกณฑ์มาตรฐาน (0.0 ถึง 1.0)
+        if (newVolume > 1.0) newVolume = 1.0;
+        if (newVolume < 0.0) newVolume = 0.0;
+        
+        music.volume = newVolume;
+        
+        // แสดงเปอร์เซ็นต์ระดับเสียงปัจจุบันขึ้นบนเว็บ
+        volDisplay.innerText = Math.round(newVolume * 100) + "%";
+    }
+
+    function updateUI(isPlaying) {
+        if (isPlaying) {
+            playPauseBtn.innerText = "⏸ PAUSE";
+            audioPanel.style.borderColor = "var(--poker-green)";
+            playPauseBtn.style.color = "var(--poker-green)";
+            playPauseBtn.style.borderColor = "var(--poker-green)";
+        } else {
+            playPauseBtn.innerText = "🎵 PLAY";
+            audioPanel.style.borderColor = "var(--poker-red)";
+            playPauseBtn.style.color = "var(--poker-red)";
+            playPauseBtn.style.borderColor = "var(--poker-red)";
+        }
+    }
+</script>
+
+
+</body>
+</html>
