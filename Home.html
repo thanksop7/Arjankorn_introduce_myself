@@ -1,20 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>introduce</title>
-    <link rel="stylesheet" href="homepage.css">
+    <title>Card Selection Homepage</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container-top">
-        <div class="text-homepage">
-            <h1>Homepage</h1>
+
+    <div id="page-overlay" class="page-overlay"></div>
+
+    <div id="emoji-background" class="emoji-bg-container"></div>
+
+    <div id="intro-screen" class="intro-container">
+        <div class="intro-content">
+            <h1 class="intro-text">Once upon a time...</h1>
+            <button id="start-btn" class="enter-btn">เปิดตำนาน</button>
         </div>
     </div>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae fugit architecto, deserunt odit repellat qui magnam? Provident suscipit debitis soluta ducimus non aliquid eum officia quibusdam molestias. Saepe, eligendi odit.</p>
 
+    <div id="main-homepage" class="homepage-container hidden">
+        <header class="header-section">
+            <h1>ยินดีต้อนรับสู่โชคชะตาของคุณ</h1>
+            <p>โปรดเลือกการ์ด 1 ใบ เพื่อเข้าสู่หน้าโปรไฟล์</p>
+        </header>
 
-    <img src="" alt="">
+        <div class="card-wrapper">
+            
+            <div class="card" data-profile="Gun.html" data-emojis="⚔️,♠,🛡️,🐴">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-back-pattern">♠</div>
+                    </div>
+                    <div class="card-back jack-theme">
+                        <div class="card-value-top">J</div>
+                        <div class="card-center-icon">⚔️</div>
+                        <div class="card-name">JACK</div>
+                        <div class="card-value-bottom">J</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-profile="Thankyou.html" data-emojis="🎭,🃏,✨,🎪">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-back-pattern">🃏</div>
+                    </div>
+                    <div class="card-back joker-theme">
+                        <div class="card-value-top">★</div>
+                        <div class="card-center-icon">🎭</div>
+                        <div class="card-name">JOKER</div>
+                        <div class="card-value-bottom">★</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-profile="Toey.html" data-emojis="👑,◆,🏰,🦁">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-back-pattern">◆</div>
+                    </div>
+                    <div class="card-back king-theme">
+                        <div class="card-value-top">K</div>
+                        <div class="card-center-icon">👑</div>
+                        <div class="card-name">KING</div>
+                        <div class="card-value-bottom">K</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
