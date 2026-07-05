@@ -242,26 +242,46 @@
         }
 
         /* ปุ่มควบคุมเสียงเพลง */
-        .music-control {
+        .audio-panel {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
-            background: #8b0000;
-            border: 2px solid #d4af37;
-            color: #fff;
-            padding: 10px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            z-index: 100;
-            transition: transform 0.2s;
+            background: var(--card-bg);
+            border: 2px solid var(--poker-red);
+            padding: 8px 12px;
+            border-radius: 6px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.3);
+            transition: border-color 0.3s ease;
         }
 
-        .music-control:hover {
-            transform: scale(1.05);
-            background: #a00000;
+        .audio-btn {
+            background: #222;
+            border: 1px solid var(--poker-red);
+            color: var(--poker-red);
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .audio-btn:hover {
+            background: var(--poker-red);
+            color: #000;
+            box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+        }
+
+        .volume-display {
+            font-size: 0.8rem;
+            color: var(--poker-white);
+            min-width: 45px;
+            text-align: center;
+            font-weight: bold;
         }
 
         /* Responsive สำหรับมือถือ */
@@ -283,13 +303,17 @@
 </head>
 <body>
 
-    <audio id="bg-music" loop>
-        <source src="https://mp3tourl.com/audio/1783264240416-912bd0f3-3316-4b4d-9620-ff7af0e2132b.mp3" type="audio/mpeg">
-    </audio>
+  <div class="audio-panel" id="audioPanel">
+    <button class="audio-btn" id="playPauseBtn" onclick="toggleAudio()">🎵 PLAY</button>
+    <button class="audio-btn" onclick="changeVolume(-0.1)">VOL -</button>
+    <div class="volume-display" id="volDisplay">50%</div>
+    <button class="audio-btn" onclick="changeVolume(0.1)">VOL +</button>
+</div>
 
-    <div class="music-control" onclick="toggleMusic()">
-        <span id="music-icon">🎵</span> <span id="music-text">Play Theme</span>
-    </div>
+<audio id="bgMusic" loop>
+    <source src="https://mp3tourl.com/audio/1783264240416-912bd0f3-3316-4b4d-9620-ff7af0e2132b.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
 
     <div class="wonderland-container">
         
@@ -302,7 +326,7 @@
                 </div>
                 
                 <div class="profile-info">
-                    <h1 class="magic-title">PIPATPONG AUTARA</h1>
+                    <h1 class="magic-title">PIPATPONG AUTARA 024</h1>
                     <p class="contact-info">
                         <strong>อีเมล:</strong> pongsagong1233@gmail.com &nbsp;|&nbsp; 
                         <strong>โทร:</strong> +66
@@ -360,32 +384,65 @@
     </div>
 
     <script>
-        const music = document.getElementById('bg-music');
-        const musicText = document.getElementById('music-text');
-        
-        function toggleMusic() {
-            if (music.paused) {
-                music.play()
-                    .then(() => {
-                        musicText.innerText = "Mute Theme";
-                    })
-                    .catch(error => console.log("Autoplay ถูกบล็อกโดยเบราว์เซอร์ ต้องกดคลิกบนหน้าจอก่อน: ", error));
-            } else {
-                music.pause();
-                musicText.innerText = "Play Theme";
-            }
-        }
+    const music = document.getElementById('bgMusic');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volDisplay = document.getElementById('volDisplay');
+    const overlay = document.getElementById('startOverlay');
+    const audioPanel = document.getElementById('audioPanel');
 
-        // ระบบเปิดเพลงอัตโนมัติเมื่อผู้ใช้คลิกส่วนใดก็ได้บนหน้าจอครั้งแรก (แก้ปัญหา Browser Block Autoplay)
-        document.addEventListener('click', function() {
-            if(music.paused && musicText.innerText === "Play Theme") {
-                music.play()
-                    .then(() => {
-                        musicText.innerText = "Mute Theme";
-                    })
-                    .catch(e => console.log(e)); 
-            }
-        }, { once: true });
-    </script>
+    // ตั้งค่าความดังเริ่มต้นไว้ที่ 50% (0.5)
+    music.volume = 0.5;
+
+    function startGame() {
+        overlay.classList.add('hidden');
+        playMusic();
+    }
+
+    function playMusic() {
+        music.play().then(() => {
+            updateUI(true);
+        }).catch(err => {
+            console.log("Autoplay โดนบล็อกตามนโยบายเบราว์เซอร์:", err);
+        });
+    }
+
+    function toggleAudio() {
+        if (music.paused) {
+            music.play();
+            updateUI(true);
+        } else {
+            music.pause();
+            updateUI(false);
+        }
+    }
+
+    // ฟังก์ชันเพิ่ม-ลดระดับเสียงผ่านปุ่มกด
+    function changeVolume(amount) {
+        let newVolume = music.volume + amount;
+
+        // ควบคุมค่าให้อยู่ในเกณฑ์มาตรฐาน (0.0 ถึง 1.0)
+        if (newVolume > 1.0) newVolume = 1.0;
+        if (newVolume < 0.0) newVolume = 0.0;
+
+        music.volume = newVolume;
+
+        // แสดงเปอร์เซ็นต์ระดับเสียงปัจจุบันขึ้นบนเว็บ
+        volDisplay.innerText = Math.round(newVolume * 100) + "%";
+    }
+
+    function updateUI(isPlaying) {
+        if (isPlaying) {
+            playPauseBtn.innerText = "⏸ PAUSE";
+            audioPanel.style.borderColor = "var(--poker-green)";
+            playPauseBtn.style.color = "var(--poker-green)";
+            playPauseBtn.style.borderColor = "var(--poker-green)";
+        } else {
+            playPauseBtn.innerText = "🎵 PLAY";
+            audioPanel.style.borderColor = "var(--poker-red)";
+            playPauseBtn.style.color = "var(--poker-red)";
+            playPauseBtn.style.borderColor = "var(--poker-red)";
+        }
+    }
+</script>
 </body>
 </html>
