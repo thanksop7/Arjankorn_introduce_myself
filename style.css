@@ -1,0 +1,180 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a1a, #2d0b0b);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* ป้องกันแถบสกรอลล์โผล่ตอนอีโมจิลอย */
+    position: relative;
+}
+
+/* --- เอฟเฟกต์เฟดตอนเปลี่ยนหน้าโปรไฟล์ --- */
+.page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+.page-overlay.fade-active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* --- เลเยอร์พื้นหลังอีโมจิลอย --- */
+.emoji-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none; /* ห้ามบังการคลิกการ์ด */
+    overflow: hidden;
+}
+
+/* ตัวอีโมจิแต่ละตัว */
+.floating-emoji {
+    position: absolute;
+    bottom: -50px;
+    font-size: 2.5rem;
+    opacity: 0;
+    animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.4;
+    }
+    90% {
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* --- ฉากเปิด (Intro) --- */
+.intro-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0b0b0b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.intro-content { text-align: center; }
+.intro-text {
+    font-size: 3.5rem;
+    font-style: italic;
+    font-family: 'Georgia', serif;
+    color: #d4af37;
+    margin-bottom: 30px;
+    letter-spacing: 3px;
+    animation: fadeInText 2s ease-in-out;
+}
+
+.enter-btn {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #d4af37;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+.enter-btn:hover {
+    background-color: #d4af37;
+    color: #000;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+}
+.intro-container.fade-out { opacity: 0; visibility: hidden; }
+.hidden { display: none !important; }
+
+@keyframes fadeInText {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- หน้าหลักและตัวการ์ด --- */
+.homepage-container {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    z-index: 10; /* ให้อยู่เหนืออีโมจิพื้นหลัง */
+    animation: fadeInPage 1s ease-in-out;
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.header-section h1 { font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+.header-section p { color: #b3b3b3; margin-bottom: 50px; }
+.card-wrapper { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; perspective: 1000px; }
+.card { width: 240px; height: 360px; cursor: pointer; }
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    border-radius: 15px;
+}
+
+.card:hover .card-inner { transform: rotateY(180deg) translateY(-10px); }
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    border: 4px solid #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.card-front { background: linear-gradient(45deg, #441111, #1a0505); border-color: #d4af37; display: flex; justify-content: center; align-items: center; }
+.card-back-pattern { font-size: 5rem; color: rgba(212, 175, 55, 0.2); }
+.card-back { background-color: #fff; color: #000; transform: rotateY(180deg); }
+
+.jack-theme { background: linear-gradient(135deg, #e6f2ff, #ffffff); border-color: #1e3d59; color: #1e3d59; }
+.joker-theme { background: linear-gradient(135deg, #fff0f5, #ffffff); border-color: #8a2be2; color: #8a2be2; }
+.king-theme { background: linear-gradient(135deg, #fff9e6, #ffffff); border-color: #ff9900; color: #ff9900; }
+
+.card-value-top { text-align: left; font-size: 2rem; font-weight: bold; }
+.card-center-icon { font-size: 4.5rem; }
+.card-name { font-size: 1.2rem; font-weight: bold; letter-spacing: 2px; }
+.card-value-bottom { text-align: right; font-size: 2rem; font-weight: bold; transform: rotate(180deg); }
